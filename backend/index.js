@@ -1,7 +1,7 @@
 import express from "express"
 import dotenv from "dotenv"
 dotenv.config()
-import connectDb from "./config/db.js"
+import mongoose from "mongoose"
 import authRouter from "./routes/auth.routes.js"
 import cors from "cors"
 import cookieParser from "cookie-parser"
@@ -21,8 +21,16 @@ app.use("/api/auth",authRouter)
 app.use("/api/user",userRouter)
 
 
+
+// db connection 
+const connection = mongoose.connect("mongodb://localhost:27017/AIassistant");
+connection.then((result) => {
+    console.log("connected to database");
+});connection.catch(() => {
+    console.log("not connected ")
+});
+
 app.listen(port,()=>{
-    connectDb()
     console.log("server started")
 })
 
